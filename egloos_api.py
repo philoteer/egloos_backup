@@ -56,6 +56,32 @@ def get_page(uri, sleep_ms = 1, retry = 3, verbose = False, return_json = False)
 		print(f"Retry count is up; I give up. ({uri})")
 	return None
 		
+def download_img(uri, save_path, sleep_ms = 1, retry = 3, verbose = False):
+	#download original instead of the thumbnail (hacky)
+	if("thumbnail.egloos" in uri):
+		uri = uri.split("http://")[-1]
+		uri = f"http://{uri}"
+
+	#do attempt to get
+	for i in range (0, retry):
+		try:
+			data = requests.get(uri, headers=headers)
+			time.sleep(sleep_ms/1000)
+			if data.status_code == 200:
+				f = open(save_path, "wb")
+				f.write(data.content)
+				f.close()	
+				return True
+				
+		except:
+			if(verbose):
+				print(f"exception: failed to get ({uri}, {i})")
+			time.sleep(1.0)
+	
+	if(verbose):
+		print(f"Retry count is up; I give up. ({uri})")
+	return False
+	
 #outputs 2 dict:
 #out_1 : key = index num, val = name(string)
 #out_2 : key = name(string), val = index num
@@ -130,14 +156,16 @@ def get_post_list_per_pg(username, page_no, category_no = None, sleep_ms = 1, ve
 	
 #outputs a list of dict, in style:
 #{'post_title': 'foo', 'post_content': 'bar', 'post_thumb': 'http://thumbnail.egloos.net/100x76/...', 'category_name': 'baz', 'post_url': 'baq', 'post_no': 'num', 'comment_count': 'some_no', 'open_comment_count': 'some_no', 'post_hidden': some_no, 'post_date_created': '1970-01-01 00:00:00'}
-def get_post_list(username, category_no = None, sleep_ms = 1, verbose = False):
+def get_post_list(username, category_no = None, sleep_ms = 1, verbose = False, show_progress = False):
 	page_no = 1
 	out = []
 	while(True):
 		posts = get_post_list_per_pg(username, page_no, category_no = category_no, sleep_ms = sleep_ms, verbose = verbose)
-		page_no += 1
 		if(posts is not None):
 			out.extend(posts)
+			if(show_progress):
+				print(f"pg #{page_no}: {len(posts)} articles.")
+		page_no += 1
 		
 		if(len(posts) < 10):
 			break;
