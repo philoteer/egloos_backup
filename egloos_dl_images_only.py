@@ -10,8 +10,8 @@ import re, sys
 # vars
 ##############################################################################################
 #### dl path
-username = "foo"
-category_name = "bar"
+username = "help"
+category_name = "이글루스란?"
 out_dir = "baz"
 sleep_ms = 1000
 reverse_order = True
