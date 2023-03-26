@@ -1,3 +1,5 @@
 # egloos_backup
 
-시한부 레포..
+이글루스가 문닫는다기에 만들고 있습니다.
+
+As/is; at your own RISC
