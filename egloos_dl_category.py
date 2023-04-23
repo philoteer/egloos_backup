@@ -79,33 +79,7 @@ def main():
 		f.close()
 		
 		if(generate_html):
-			f = open(save_path+"/"+str(i['post_no'])+".html", "w")
-			f.write(f"<!DOCTYPE html> <html lang=\"ko\"><head>")
-			f.write("<style> img {display: block;}</style>")
-			f.write(f"<meta content=\"text/html; charset=utf-8\" /><title>{contents['post_title']}</title> </head>")
-			f.write(f"<body>")
-			f.write(f"<h1>")
-			f.write(contents['post_title'])
-			f.write(f"</h1>")			
-			f.write(f"<h2>")
-			f.write(f"카테고리: {contents['category_name']}; 댓글수: {contents['comment_count']}; 게시일: {contents['post_date_created']}")
-			f.write(f"</h2> <hr>")			
-			f.write(contents['post_content'])
-			f.write(f"<hr> <h2>")
-			f.write(f"댓글")
-			f.write(f"</h2> ")
-			
-			if(contents_comments is not None):
-				for comment in contents_comments:
-					f.write("<p>")
-					f.write(f"<h3> 작성자: {comment['comment_nick']}  작성일: {comment['comment_date_created']} </h3>")
-					f.write(f"{comment['comment_content']}")
-					f.write("</p>")
-					
-					
-			f.write(f"</body> </html>")
-			f.close()
-			
+			write_html_post(contents,contents_comments,save_path+"/"+str(i['post_no'])+".html")
 			f_index_pg.write(f"<li><a href=\"{i['post_no']}/{i['post_no']}.html\"> ({contents['post_date_created']}) {contents['post_title']}</a></li>")
 		#increase post counter
 		cnt += 1
@@ -120,6 +94,9 @@ def main():
 ##############################################################################################
 # fcts
 ##############################################################################################
+
+
+
 #Gets images
 #very hacky (wontfix - Egloos is closing anyway)
 def get_images(contents,save_path,sleep_time,prefix, replace_urls=False):
