@@ -12,14 +12,16 @@ import shutil, os
 #### dl path
 username = input('username?')
 out_dir = username
-sleep_ms = 1000
-reverse_order = True
+sleep_ms = int(input("delay per download [default: 100] ?") or "100")
+reverse_order = input("reverse the post order? [yN]")
+reverse_order = (reverse_order == "y" or reverse_order == "Y")
 
 #### misc config
 verbose = True
 generate_html = True
 
-remove_cache = True
+remove_cache = False
+skip_image_download_if_post_dump_exists = True
 ##############################################################################################
 
 ##############################################################################################
@@ -111,7 +113,9 @@ def download_category(username, category_no, out_dir):
 			
 		#get images!
 		prefix = format(cnt, '03d')
-		contents['post_content'] = get_images(contents['post_content'],save_path_img,sleep_ms, prefix, replace_urls = True)
+		
+		if not(skip_image_download_if_post_dump_exists and os.path.exists(save_path+"/"+str(i['post_no'])+"_comments.json")):
+			contents['post_content'] = get_images(contents['post_content'],save_path_img,sleep_ms, prefix, replace_urls = True)
 		
 		#save page
 		f = open(save_path+"/"+str(i['post_no'])+".json", "w")
