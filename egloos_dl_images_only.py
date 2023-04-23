@@ -103,7 +103,7 @@ def get_images(contents,save_path,sleep_time,prefix):
 		print(f"{filename} {uri}")
 		
 		if(not(download_img(uri, full_path, sleep_ms = sleep_ms, retry = 3, verbose = False))):
-			print("what")
+			print("image download failed.")
 		
 		
 		cnt += 1
