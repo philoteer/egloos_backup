@@ -173,7 +173,7 @@ def get_images(contents,save_path,sleep_time,prefix, replace_urls=False):
 		print(f"{filename} {uri}")
 		
 		if(not(download_img(uri, full_path, sleep_ms = sleep_ms, retry = 3, verbose = False,skip_if_exists=True))):
-			print("what")
+			print("download failed")
 		
 		i['src'] = "assets/"+filename
 		cnt += 1
