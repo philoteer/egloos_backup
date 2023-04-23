@@ -128,7 +128,7 @@ def get_comments(username, post_no, sleep_ms = 1, verbose = False):
 		comments = get_comments_per_pg(username,post_no,page_no, sleep_ms=sleep_ms,verbose=verbose)
 		page_no += 1
 		if (comments is None):
-			return None
+			return out
 			
 		out.extend(comments)
 		
@@ -163,10 +163,12 @@ def get_post_list(username, category_no = None, sleep_ms = 1, verbose = False, s
 	out = []
 	while(True):
 		posts = get_post_list_per_pg(username, page_no, category_no = category_no, sleep_ms = sleep_ms, verbose = verbose)
-		if(posts is not None):
-			out.extend(posts)
-			if(show_progress):
-				print(f"pg #{page_no}: {len(posts)} articles.")
+		if(posts is None):
+			return out
+			
+		out.extend(posts)
+		if(show_progress):
+			print(f"pg #{page_no}: {len(posts)} articles.")
 		page_no += 1
 		
 		if(len(posts) < 10):
