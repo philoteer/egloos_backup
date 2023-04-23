@@ -188,3 +188,32 @@ def get_post(username, post_no, sleep_ms = 1, verbose = False):
 	data = data['post']
 	
 	return data
+
+##################################### unofficial fcts
+def write_html_post(contents,contents_comments, path):
+	f = open(path, "w")
+	f.write(f"<!DOCTYPE html> <html lang=\"ko\"><head>")
+	f.write("<style> img {display: block;}</style>")
+	f.write(f"<meta content=\"text/html; charset=utf-8\" /><title>{contents['post_title']}</title> </head>")
+	f.write(f"<body>")
+	f.write(f"<h1>")
+	f.write(contents['post_title'])
+	f.write(f"</h1>")			
+	f.write(f"<h2>")
+	f.write(f"카테고리: {contents['category_name']}; 댓글수: {contents['comment_count']}; 게시일: {contents['post_date_created']}")
+	f.write(f"</h2> <hr>")			
+	f.write(contents['post_content'])
+	f.write(f"<hr> <h2>")
+	f.write(f"댓글")
+	f.write(f"</h2> ")
+	
+	if(contents_comments is not None):
+		for comment in contents_comments:
+			f.write("<p>")
+			f.write(f"<h3> 작성자: {comment['comment_nick']}  작성일: {comment['comment_date_created']} </h3>")
+			f.write(f"{comment['comment_content']}")
+			f.write("</p>")
+			
+			
+	f.write(f"</body> </html>")
+	f.close()
