@@ -127,8 +127,10 @@ def get_comments(username, post_no, sleep_ms = 1, verbose = False):
 	while(True):
 		comments = get_comments_per_pg(username,post_no,page_no, sleep_ms=sleep_ms,verbose=verbose)
 		page_no += 1
-		if (comments is not None):
-			out.extend(comments)
+		if (comments is None):
+			return None
+			
+		out.extend(comments)
 		
 		if(len(comments) < 100):
 			break;
