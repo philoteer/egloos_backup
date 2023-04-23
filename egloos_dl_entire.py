@@ -10,8 +10,8 @@ import shutil, os
 # vars
 ##############################################################################################
 #### dl path
-username = "help"
-out_dir = "help"
+username = input('username?')
+out_dir = username
 sleep_ms = 1000
 reverse_order = True
 
