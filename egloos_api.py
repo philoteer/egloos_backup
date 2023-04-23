@@ -1,13 +1,13 @@
 import requests, json
 import time
-
+import os
 ############### configs
 headers = {'User-Agent': 'Mozilla/5.0 (XWayland; OS/2 mipseb; rv:25.25) Gecko/43430101 Firefox/39.[object Object]'}
 use_cache = True
 cache_path = './cache'
 
 if(use_cache):
-	import hashlib, os
+	import hashlib
 ########################################################################
 
 #see: http://apicenter.egloos.com/manual_post.php
@@ -56,7 +56,10 @@ def get_page(uri, sleep_ms = 1, retry = 3, verbose = False, return_json = False)
 		print(f"Retry count is up; I give up. ({uri})")
 	return None
 		
-def download_img(uri, save_path, sleep_ms = 1, retry = 3, verbose = False):
+def download_img(uri, save_path, sleep_ms = 1, retry = 3, verbose = False, skip_if_exists=False):
+	if(skip_if_exists and os.path.isfile(save_path)):
+		return True
+	
 	#download original instead of the thumbnail (hacky)
 	if("thumbnail.egloos" in uri):
 		uri = uri.split("http://")[-1]
@@ -178,20 +181,22 @@ def get_post_list(username, category_no = None, sleep_ms = 1, verbose = False, s
 
 #outputs a dict:
 #{'post_title': 'foo', 'post_no': 'no', 'post_content': 'bar', 'category_name': 'baz', 'category_no': 'no', 'post_nick': 'handle', 'comment_count': '0', 'trackback_count': '0', 'post_hidden': 0, 'comment_enabled': '1', 'trackback_enabled': '1', 'post_date_created': '1970-01-01 00:00:00', 'post_date_modified': '1970-01-01 00:00:00', 'post_tags': None}
-def get_post(username, post_no, sleep_ms = 1, verbose = False):
+def get_post(username, post_no, sleep_ms = 1, verbose = False, return_json = True):
 	uri = f'https://api.egloos.com/{username}/post/{post_no}.json'
-	data = get_page(uri,sleep_ms, verbose = verbose, return_json = True)
+	data = get_page(uri,sleep_ms, verbose = verbose, return_json = return_json)
 	
 	if data is None:
 		if verbose:
 			print(f"get_post failed! ({uri})")
 		return
-		
-	data = data['post']
+	
+	if (return_json):
+		data = data['post']
 	
 	return data
 
-##################################### unofficial fcts
+
+##################################### unofficial fct
 def write_html_post(contents,contents_comments, path):
 	f = open(path, "w")
 	f.write(f"<!DOCTYPE html> <html lang=\"ko\"><head>")
