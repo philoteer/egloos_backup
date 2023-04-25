@@ -55,7 +55,8 @@ def archive_all():
 	#per each category:
 	for category_no in categories_dict:
 		#add an entry to index html
-		f_index_pg.write(f"<li> <a href=\"index_cat{category_no}.html\" target=\"_blank\"> {categories_dict[category_no]} </a></li>")
+		if(generate_html):
+			f_index_pg.write(f"<li> <a href=\"index_cat{category_no}.html\" target=\"_blank\"> {categories_dict[category_no]} </a></li>")
 		print(categories_dict[category_no])		
 		#get category
 		download_category(username, category_no, out_dir)
