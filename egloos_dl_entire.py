@@ -190,3 +190,5 @@ def get_images(contents,save_path,sleep_time,prefix, replace_urls=False):
 #run main	
 if __name__ == "__main__":
 	main()
+	print("Done. Press enter to exit.")
+	input()
