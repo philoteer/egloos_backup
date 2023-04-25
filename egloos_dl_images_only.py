@@ -12,11 +12,11 @@ import shutil, os
 #### dl path
 username = input('User ID? ')
 out_dir = username
-sleep_ms = int(input("Delay per download [default: 100]? ") or "100")
-reverse_order = input("Reverse the post order? [Y/N; default = N] ")
+sleep_ms = int(input("Delay per download? [default: 100]") or "100")
+reverse_order = input("Reverse the post order? [Y/N; default: N] ")
 reverse_order = (reverse_order == "y" or reverse_order == "Y")
 
-download_all = input("Download all posts[\"ALL\" for all posts; \"CAT\" for one category. default=ALL]? ")
+download_all = input("Download all posts? [\"ALL\" for all posts; \"CAT\" for one category. default:ALL]")
 download_all = not(download_all.lower() == "category" or download_all.lower() == "cat")
 #### misc config
 verbose = True
