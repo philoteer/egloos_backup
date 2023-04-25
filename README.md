@@ -13,3 +13,5 @@ Delay per download? [default: 100] 파일을 하나 다운로드할 때 마다 �
 Reverse the post order? [Y/N; default: N] Y = 포스트의 순서를 뒤집음. N = 그대로 둠 (기본값)
 Download all posts? [\"ALL\" for all posts; \"CAT\" for one category. default:ALL] ALL = 모든 포스트를 다운받음. CAT = 카테고리 하나만 다운받음
 ```
+
+윈도우 바이너리 다운로드: https://github.com/philoteer/egloos_backup/releases/tag/rel1 
