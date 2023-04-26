@@ -156,34 +156,37 @@ def get_images(contents,save_path,sleep_time,prefix, replace_urls=False):
 	#for each image tag:
 	cnt = 1
 	for i in s3:
-		#set store file name
-		filename = format(cnt, '03d')
-		if(i.has_attr('filename')):
-			filename = prefix+"_"+filename + "_" + str(i['filename'])
-		elif len(str(i['src']).split("/")[-1].split(".")) > 1:
-			ext = str(i['src']).split("/")[-1].split(".")[-1]
-			filename = prefix+"_"+filename + "_." + ext
-		else:
-			filename = prefix+"_"+filename + ".jpg"
-			
-		#set store path
-		full_path = save_path+"/" + filename
-		
-		#get the file
-		#skip ico_badreport.png
-		uri = str(i['src'])
-		if("ico_badreport.png" in uri):
-			continue
-			
+		try:
+			#set store file name
+			filename = format(cnt, '03d')
+			if(i.has_attr('filename')):
+				filename = prefix+"_"+filename + "_" + str(i['filename'])
+			elif len(str(i['src']).split("/")[-1].split(".")) > 1:
+				ext = str(i['src']).split("/")[-1].split(".")[-1]
+				filename = prefix+"_"+filename + "_." + ext
+			else:
+				filename = prefix+"_"+filename + ".jpg"
 
-		#do download
-		print(f"{filename} {uri}")
-		
-		if(not(download_img(uri, full_path, sleep_ms = sleep_ms, retry = 3, verbose = False,skip_if_exists=True))):
-			print("download failed")
-		
-		i['src'] = "assets/"+filename
-		cnt += 1
+			#set store path
+			full_path = save_path+"/" + filename
+
+			#get the file
+			#skip ico_badreport.png
+			uri = str(i['src'])
+			if("ico_badreport.png" in uri):
+				continue
+
+
+			#do download
+			print(f"{filename} {uri}")
+
+			if(not(download_img(uri, full_path, sleep_ms = sleep_ms, retry = 3, verbose = False,skip_if_exists=True))):
+				print("download failed")
+
+			i['src'] = "assets/"+filename
+			cnt += 1
+		except:
+			printf("exception thrown")
 	#print(str(soup))
 		
 	return str(soup)
