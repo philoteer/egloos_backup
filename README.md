@@ -16,4 +16,4 @@ Download all posts? [\"ALL\" for all posts; \"CAT\" for one category. default:AL
 
 윈도우 바이너리 다운로드: https://github.com/philoteer/egloos_backup/releases/tag/rel1 
 
-(*버그가 쫌 있으므로 그냥 파이썬 스크립트 받아서 돌리시는 편이 나을 수 있습네다.)
+(*윈도 바이너리는 버그패치를 덜 했으므로 그냥 파이썬 스크립트 받아서 돌리시는 편이 나을 수 있습네다.)
