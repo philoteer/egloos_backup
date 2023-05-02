@@ -40,13 +40,13 @@ def archive_all():
 	print(f"categories: {categories_dict}")
 	
 	#save as json
-	f = open(out_dir+"/index.json", "w")
+	f = open(out_dir+"/index.json", "w", encoding="utf-8")
 	f.write(json.dumps(categories_dict))
 	f.close()
 
 	#create index html
 	if(generate_html):
-		f_index_pg = open(out_dir+"/"+"index.html", "w")
+		f_index_pg = open(out_dir+"/"+"index.html", "w", encoding="utf-8")
 		f_index_pg.write(f"<!DOCTYPE html> <html lang=\"ko\"><head>")
 		f_index_pg.write("<style> img {display: block;}</style>")
 		f_index_pg.write("<meta content=\"text/html; charset=utf-8\" /><title>index</title> </head>")
@@ -89,12 +89,12 @@ def download_category(username, category_no, out_dir):
 	#get pages
 	cnt = 1
 	
-	f = open(f"{out_dir}/index_cat{category_no}.json","w")
+	f = open(f"{out_dir}/index_cat{category_no}.json","w", encoding="utf-8")
 	f.write(json.dumps(posts))
 	f.close()
 	
 	if(generate_html):
-		f_index_pg = open(f"{out_dir}/index_cat{category_no}.html", "w")
+		f_index_pg = open(f"{out_dir}/index_cat{category_no}.html", "w", encoding="utf-8")
 		f_index_pg.write(f"<!DOCTYPE html> <html lang=\"ko\"><head>")
 		f_index_pg.write("<style> img {display: block;}</style>")
 		f_index_pg.write("<meta content=\"text/html; charset=utf-8\" /><title>index</title> </head>")
@@ -121,11 +121,11 @@ def download_category(username, category_no, out_dir):
 			contents['post_content'] = get_images_null(contents['post_content'],save_path_img,sleep_ms, i['post_no'], replace_urls = True)
 		
 		#save page
-		f = open(save_path+"/"+str(i['post_no'])+".json", "w")
+		f = open(save_path+"/"+str(i['post_no'])+".json", "w", encoding="utf-8")
 		f.write(json.dumps(contents))
 		f.close()
 		
-		f = open(save_path+"/"+str(i['post_no'])+"_comments.json", "w")
+		f = open(save_path+"/"+str(i['post_no'])+"_comments.json", "w", encoding="utf-8")
 		f.write(json.dumps(contents_comments))
 		f.close()
 		
