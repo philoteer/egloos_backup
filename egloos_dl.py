@@ -23,7 +23,7 @@ verbose = True
 generate_html = True
 
 remove_cache = True
-skip_image_download_if_post_dump_exists = True
+skip_image_download_if_post_dump_exists = False
 ##############################################################################################
 
 ##############################################################################################
