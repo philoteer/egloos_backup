@@ -23,7 +23,7 @@ verbose = True
 generate_html = True
 
 remove_cache = True
-skip_image_download_if_post_dump_exists = False
+skip_image_download_if_post_dump_exists = True
 ##############################################################################################
 
 ##############################################################################################
@@ -119,6 +119,8 @@ def download_category(username, category_no, out_dir):
 		
 		if not(skip_image_download_if_post_dump_exists and os.path.exists(save_path+"/"+str(i['post_no'])+"_comments.json")):
 			contents['post_content'] = get_images(contents['post_content'],save_path_img,sleep_ms, prefix, replace_urls = True)
+		else:
+			contents['post_content'] = get_images_null(contents['post_content'],save_path_img,sleep_ms, prefix, replace_urls = True)
 		
 		#save page
 		f = open(save_path+"/"+str(i['post_no'])+".json", "w")
@@ -154,9 +156,10 @@ def get_images(contents,save_path,sleep_time,prefix, replace_urls=False):
 	s3 = soup.find_all('img')
 	
 	#for each image tag:
-	cnt = 1
+	cnt = 0
 	for i in s3:
 		try:
+			cnt += 1
 			#set store file name
 			filename = format(cnt, '03d')
 			if(i.has_attr('filename')):
@@ -184,13 +187,47 @@ def get_images(contents,save_path,sleep_time,prefix, replace_urls=False):
 				print("download failed")
 
 			i['src'] = "assets/"+filename
-			cnt += 1
 		except:
 			printf("exception thrown")
 	#print(str(soup))
 		
 	return str(soup)
 
+
+def get_images_null(contents,save_path,sleep_time,prefix, replace_urls=False):
+	soup = BeautifulSoup(contents, 'html.parser')	
+	s3 = soup.find_all('img')
+	
+	#for each image tag:
+	cnt = 0
+	for i in s3:
+		try:
+			cnt += 1
+			#set store file name
+			filename = format(cnt, '03d')
+			if(i.has_attr('filename')):
+				filename = prefix+"_"+filename + "_" + str(i['filename'])
+			elif len(str(i['src']).split("/")[-1].split(".")) > 1:
+				ext = str(i['src']).split("/")[-1].split(".")[-1]
+				filename = prefix+"_"+filename + "_." + ext
+			else:
+				filename = prefix+"_"+filename + ".jpg"
+
+			#set store path
+			full_path = save_path+"/" + filename
+
+			#get the file
+			#skip ico_badreport.png
+			uri = str(i['src'])
+			if("ico_badreport.png" in uri):
+				continue
+
+			i['src'] = "assets/"+filename
+		except:
+			printf("exception thrown")
+	#print(str(soup))
+		
+	return str(soup)
 ##############################################################################################
 	
 #run main	
