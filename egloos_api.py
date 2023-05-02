@@ -21,7 +21,7 @@ def get_page(uri, sleep_ms = 1, retry = 3, verbose = False, return_json = False)
 			
 			
 		if os.path.exists(cache_path + "/" + uri_hash):
-			f = open(cache_path + "/" + uri_hash, "r")
+			f = open(cache_path + "/" + uri_hash, "r", encoding="utf-8")
 			s = f.read()
 			f.close()
 			
@@ -38,7 +38,7 @@ def get_page(uri, sleep_ms = 1, retry = 3, verbose = False, return_json = False)
 			out = data.text
 			#cache the data
 			if(use_cache):
-				f = open(cache_path + "/" + uri_hash, "w")
+				f = open(cache_path + "/" + uri_hash, "w", encoding="utf-8")
 				f.write(data.text)
 				f.close()
 			
@@ -198,7 +198,7 @@ def get_post(username, post_no, sleep_ms = 1, verbose = False, return_json = Tru
 
 ##################################### unofficial fct
 def write_html_post(contents,contents_comments, path):
-	f = open(path, "w")
+	f = open(path, "w", encoding="utf-8")
 	f.write(f"<!DOCTYPE html> <html lang=\"ko\"><head>")
 	f.write("<style> img {display: block;}</style>")
 	f.write(f"<meta content=\"text/html; charset=utf-8\" /><title>{contents['post_title']}</title> </head>")
