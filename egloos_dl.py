@@ -114,13 +114,11 @@ def download_category(username, category_no, out_dir):
 		if not os.path.exists(save_path_img):
 			os.mkdir(save_path_img)
 			
-		#get images!
-		prefix = format(cnt, '03d')
-		
+		#get images!		
 		if not(skip_image_download_if_post_dump_exists and os.path.exists(save_path+"/"+str(i['post_no'])+"_comments.json")):
-			contents['post_content'] = get_images(contents['post_content'],save_path_img,sleep_ms, prefix, replace_urls = True)
+			contents['post_content'] = get_images(contents['post_content'],save_path_img,sleep_ms, i['post_no'], replace_urls = True)
 		else:
-			contents['post_content'] = get_images_null(contents['post_content'],save_path_img,sleep_ms, prefix, replace_urls = True)
+			contents['post_content'] = get_images_null(contents['post_content'],save_path_img,sleep_ms, i['post_no'], replace_urls = True)
 		
 		#save page
 		f = open(save_path+"/"+str(i['post_no'])+".json", "w")
