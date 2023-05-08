@@ -36,6 +36,10 @@ def get_page(uri, sleep_ms = 1, retry = 3, verbose = False, return_json = False)
 			data = requests.get(uri, headers=headers)
 			time.sleep(sleep_ms/1000)
 			out = data.text
+			
+			if(data.status_code != 200):
+				raise Exception("non-200 HTTP status")
+				
 			#cache the data
 			if(use_cache):
 				f = open(cache_path + "/" + uri_hash, "w", encoding="utf-8")
